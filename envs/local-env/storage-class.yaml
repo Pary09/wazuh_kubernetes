@@ -1,0 +1,32 @@
+# Copyright (C) 2019, Wazuh Inc.
+#
+# This program is a free software; you can redistribute it
+# and/or modify it under the terms of the GNU General Public
+# License (version 2) as published by the FSF - Free Software
+# Foundation.
+
+# Wazuh StorageClass
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: wazuh-storage
+
+# Microk8s is our standard for local development
+provisioner: openshift-storage.cephfs.csi.ceph.com
+parameters:
+  csi.storage.k8s.io/provisioner-secret-namespace: openshift-storage
+  csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+  csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+  clusterID: openshift-storage
+  fsName: cephfs
+  csi.storage.k8s.io/controller-expand-secret-namespace: openshift-storage
+  pool: cephfs_data
+  csi.storage.k8s.io/node-stage-secret-namespace: openshift-storage
+
+# In case you're running Minikube you can comment the line above and use this one
+# provisioner: k8s.io/minikube-hostpath
+
+# If you're using a different provider you can list storage classes
+# with: "kubectl get sc" and look for the column "Provisioner"
