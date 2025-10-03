@@ -13,3 +13,9 @@ patches:
 - path: storage-class.yaml
 - path: indexer-resources.yaml
 - path: wazuh-resources.yaml
+- target:
+    kind: Service
+  patch: |
+   - op: add
+     path: /metadata/annotations/metallb.io~1allow-shared-ip
+     value: "clavePrueba"
